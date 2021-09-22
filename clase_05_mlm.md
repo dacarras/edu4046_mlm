@@ -370,16 +370,16 @@ knitr::kable()
 
 |     target |      proof |
 |-----------:|-----------:|
-| -2.7624612 | -2.7624612 |
-| -1.7417346 | -1.7417346 |
+| -1.7449194 | -1.7449194 |
+| -1.1684716 | -1.1684716 |
 | -0.9264272 | -0.9264272 |
-| -0.8069974 | -0.8069974 |
-| -0.2002940 | -0.2002940 |
-| -0.1143046 | -0.1143046 |
-|  0.2105445 |  0.2105445 |
-|  0.8268022 |  0.8268022 |
-|  0.8825361 |  0.8825361 |
-|  1.1850916 |  1.1850916 |
+| -0.7512635 | -0.7512635 |
+| -0.0283151 | -0.0283151 |
+|  0.1579954 |  0.1579954 |
+|  0.5783882 |  0.5783882 |
+|  1.2042003 |  1.2042003 |
+|  1.3873260 |  1.3873260 |
+|  2.3204708 |  2.3204708 |
 
 ``` r
 # Note: target and proof variable, should have equal values.
@@ -1074,20 +1074,39 @@ iccbeta::icc_beta(m01)$rho_beta*100
 # visualize random slope with ggeffects
 # -----------------------------------------------
 
+library(ggplot2)
 library(ggeffects)
-set.seed(123)
-random_slope <- m01
-expected_est <- ggpredict(random_slope, 
-                terms = c("ses_w", "id_j [sample=50]"), 
-                type = "random")
 
-plot(expected_est) + 
-scale_color_grey(start=0.8, end=0.2) + 
-theme_classic()
+ggeffects::ggpredict(m01, 
+terms = c("ses_w","id_j [sample=100]"), type = "random") %>% 
+ggplot(aes(x = x, y = predicted, group = group)) +
+geom_line(alpha = 0.2, color = "#30619c") +
+theme(
+  axis.ticks = element_blank(),
+  axis.text.y = 
+  element_text(color = "#3a74bd", 
+    size = 6, 
+    hjust = .5, 
+    vjust = .5
+    ),
+  axis.text.x = 
+  element_text(color = "#3a74bd", 
+    size = 10, 
+    hjust = .5, 
+    vjust = .5
+    ),
+  axis.title.x = element_text(colour = "#3a74bd"),
+  axis.title.y = element_text(colour = "#3a74bd"),
+  panel.grid.minor.x = element_blank(),
+  panel.grid.major.x = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.grid.major.y = element_blank(),
+  panel.background = element_rect(fill = "transparent",colour = NA),
+  plot.background  = element_rect(fill = "transparent",colour = NA),
+  panel.border = element_rect(colour = '#3a74bd', fill = NA)
+  ) +
+ylab('predicted y')
 ```
-
-    ## Scale for 'colour' is already present. Adding another scale for 'colour',
-    ## which will replace the existing scale.
 
 ![](clase_05_mlm_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
