@@ -1,6 +1,6 @@
 ---
 title: "Métodos Cuantitativos de investigación en Educación"
-subtitle: "Clase 05: models multinivel"
+subtitle: "Clase 05: modelos multinivel"
 output: github_document
 ---
 

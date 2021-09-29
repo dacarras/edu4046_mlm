@@ -12,6 +12,21 @@ sala de clases al azar. En este estudio participan estudiantes de cuarto
 grado, de 9.5 años de edad aproximadamente, con 4 años de escolaridad.
 Las variables que contiene este archivo se describen en la Tabla 1.
 
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+    ## Loading required package: purrr
+
+    ## Loading required package: stringr
+
 | variable | type | values                        | labels                                                                                                        |
 |:---------|:-----|:------------------------------|:--------------------------------------------------------------------------------------------------------------|
 | id\_i    | int  | 7553, 107554, 107555, 107556… | student unique id                                                                                             |
@@ -344,6 +359,10 @@ r4sda::get_desc() %>%
 knitr::kable(., digits = 2)
 ```
 
+    ## Loading required package: moments
+
+    ## Loading required package: skimr
+
 | var      | missing | complete |    n | mean |   sd |   min |   p25 | median |  p75 |  max | skew | kurt | hist     |
 |:---------|--------:|---------:|-----:|-----:|-----:|------:|------:|-------:|-----:|-----:|-----:|-----:|:---------|
 | ses\_raw |       0 |        1 | 4420 | 0.03 | 1.03 | -3.77 | -0.65 |  -0.03 | 0.70 | 3.04 | 0.33 | 2.90 | ▁▁▂▇▇▅▂▁ |
@@ -370,16 +389,16 @@ knitr::kable()
 
 |     target |      proof |
 |-----------:|-----------:|
-| -1.7449194 | -1.7449194 |
-| -1.1684716 | -1.1684716 |
-| -0.9264272 | -0.9264272 |
-| -0.7512635 | -0.7512635 |
-| -0.0283151 | -0.0283151 |
-|  0.1579954 |  0.1579954 |
-|  0.5783882 |  0.5783882 |
-|  1.2042003 |  1.2042003 |
-|  1.3873260 |  1.3873260 |
-|  2.3204708 |  2.3204708 |
+| -2.2178614 | -2.2178614 |
+| -1.7592509 | -1.7592509 |
+| -1.5283533 | -1.5283533 |
+| -1.1780259 | -1.1780259 |
+| -0.6971220 | -0.6971220 |
+| -0.2544355 | -0.2544355 |
+|  0.1548106 |  0.1548106 |
+|  0.4844368 |  0.4844368 |
+|  1.1213957 |  1.1213957 |
+|  1.6134464 |  1.6134464 |
 
 ``` r
 # Note: target and proof variable, should have equal values.
@@ -859,6 +878,12 @@ vpc_model <- lavaan::sem(
 
 # display estimates
 library(lavaan)
+```
+
+    ## This is lavaan 0.6-9
+    ## lavaan is FREE software! Please report any bugs.
+
+``` r
 summary(vpc_model, fit.measures=TRUE, standardized=TRUE, rsquare=TRUE)
 ```
 
@@ -972,6 +997,16 @@ plot_grid(
   ncol = 1)
 ```
 
+    ## Loading required package: ggplot2
+
+    ## Loading required package: lme4
+
+    ## Loading required package: Matrix
+
+    ## Loading required package: tibble
+
+    ## Loading required package: broom.mixed
+
 ![](clase_05_mlm_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 **Código 03.5: visualizar medias latentes
@@ -1076,7 +1111,16 @@ iccbeta::icc_beta(m01)$rho_beta*100
 
 library(ggplot2)
 library(ggeffects)
+```
 
+    ## 
+    ## Attaching package: 'ggeffects'
+
+    ## The following object is masked from 'package:cowplot':
+    ## 
+    ##     get_title
+
+``` r
 ggeffects::ggpredict(m01, 
 terms = c("ses_w","id_j [sample=100]"), type = "random") %>% 
 ggplot(aes(x = x, y = predicted, group = group)) +
@@ -1435,6 +1479,31 @@ m04 <- lme4::lmer(f04, data = data_lux, REML = FALSE)
 # -----------------------------------------------
 
 library(multcomp)
+```
+
+    ## Loading required package: mvtnorm
+
+    ## Loading required package: survival
+
+    ## Loading required package: TH.data
+
+    ## Loading required package: MASS
+
+    ## 
+    ## Attaching package: 'MASS'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     select
+
+    ## 
+    ## Attaching package: 'TH.data'
+
+    ## The following object is masked from 'package:MASS':
+    ## 
+    ##     geyser
+
+``` r
 summary(glht(m04, linfct = c("ses_b - ses_w = 0")))
 ```
 
